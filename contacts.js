@@ -2,10 +2,10 @@ const path = require("path");
 const fs = require("fs").promises;
 const uniqid = require("uniqid");
 
-const contactsPath = path.resolve("contacts.json");
+const contactsPath = path.normalize("db/contacts.json");
 
 async function listContacts() {
-  const list = await fs.readFile("db/contacts.json");
+  const list = await fs.readFile(contactsPath);
   return JSON.parse(list);
 }
 
@@ -18,7 +18,7 @@ async function getContactById(contactId) {
 async function removeContact(contactId) {
   const data = await listContacts();
   const deleteContactById = data.filter(({ id }) => !(id === contactId));
-  fs.writeFile("db/contacts.json", JSON.stringify(deleteContactById));
+  fs.writeFile(contactsPath, JSON.stringify(deleteContactById));
   console.log(`Contact with id ${contactId} was deleted successfully`);
 }
 
@@ -31,7 +31,7 @@ async function addContact(name, email, phone) {
   };
   const data = await listContacts();
   const newData = [...data, newContact];
-  await fs.writeFile("db/contacts.json", JSON.stringify(newData));
+  await fs.writeFile(contactsPath, JSON.stringify(newData));
   console.log("Contact added successfully ");
 }
 
