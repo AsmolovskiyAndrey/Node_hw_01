@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs").promises;
 const uniqid = require("uniqid");
 
-const contactsPath = path.normalize("db/contacts.json");
+const contactsPath = path.resolve("db/contacts.json");
 
 async function listContacts() {
   const list = await fs.readFile(contactsPath);
